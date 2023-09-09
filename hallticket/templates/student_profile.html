@@ -1,0 +1,46 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Profile</title>
+</head>
+<body>
+    <h1>Welcome, {{ student.student_name }}!</h1>
+    <p>Enrollment Number: {{ student.enrollment_number }}</p>
+    <p>Program: {{ student.studentprofile.program }}</p>
+    <p>Course: {{ student.studentprofile.course }}</p>
+    
+    <!-- Add a link to download the hall ticket -->
+    <a href="{% url 'generate_hall_ticket' %}" class="btn btn-primary">Generate Hall Ticket</a>
+</body>
+</html>
+
+
+
+
+
+
+
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Profile</title>
+    <style>
+        /* Add your CSS styles here */
+        /* You can style the student profile page as needed */
+    </style>
+</head>
+<body>
+    <h1>Welcome, {{ user.username }}!</h1>
+    <p>Enrollment Number: {{ student.enrollment_number }}</p>
+    <p>Name: {{ student.name }}</p>
+    <Add more student details as needed -->
+    <!-- <a href="{% url 'generate_hall_ticket' %}" class="btn btn-primary">Generate Hall Ticket</a>
+
+</body>
+</html> -->
+  

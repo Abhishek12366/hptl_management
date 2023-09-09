@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Login</title>
+</head>
+<body>
+    <h1>Student Login</h1>
+    {% if messages %}
+<div class="alert alert-danger">
+    <ul>
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
+    <form method="post">
+        {% csrf_token %}
+        <label for="enrollment_number">Enrollment Number:</label>
+        <input type="text" id="enrollment_number" name="enrollment_number"><br>
+        <label for="student_name">Student Name:</label>
+        <input type="text" id="student_name" name="student_name"><br>
+        <button type="submit">Login</button>
+    </form>
+</body>
+</html>

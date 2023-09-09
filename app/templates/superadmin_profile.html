@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Super Admin Profile</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #007BFF;
+            color: white;
+            padding: 20px 0;
+        }
+
+        header h1 {
+            font-size: 36px;
+            margin: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: flex; /* Use flexbox to arrange items */
+            justify-content: space-between; /* Space items horizontally */
+            align-items: center; /* Center items vertically */
+        }
+
+        p {
+            font-size: 18px;
+            margin: 10px 0;
+        }
+
+        a {
+            text-decoration: none;
+            background-color: #007BFF;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease-in-out;
+            display: inline-block;
+        }
+
+        a:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Super Admin Profile</h1>
+    </header>
+    <div class="container">
+        <div>
+            <p>Welcome, {{ user.username }}!</p>
+            <p>Email: {{ user.email }}</p>
+        </div>
+        
+        <a href="{% url 'create_admin' %}">Create New Admin</a>
+    </div>
+</body>
+</html>
+
+
+
+<!-- {% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Super Admin Profile</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'superadmin.css' %}">
+
+</head>
+<body>
+    <div class="scale-in">
+        <h1>Super Admin Profile</h1>
+        <p>Welcome, {{ user.username }}!</p>
+        <p>Email: {{ user.email }}</p>
+        
+        <a href="{% url 'create_admin' %}">Create New Admin</a>
+    </div>
+</body>
+</html>
+
+
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Super Admin Profile</title>
+</head>
+<body>
+    <h1>Super Admin Profile</h1>
+    <p>Welcome, {{ user.username }}!</p>
+    <a href="{% url 'create_admin' %}">Create New Admin</a>
+    
+</body>
+</html> --> 
