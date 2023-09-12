@@ -104,22 +104,22 @@ def superadmin_profile(request):
 #     return render(request, 'superadmin_login.html')
 
 
-@login_required
-def admin_requests(request):
-    requests = AdminRequest.objects.all()
-    return render(request, 'admin_request.html', {'requests': requests})
+# @login_required
+# def admin_requests(request):
+#     requests = AdminRequest.objects.all()
+#     return render(request, 'admin_request.html', {'requests': requests})
 
-def create_admin(request):
-    if request.method == 'POST':
-        form = AdminCreateForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            user.is_staff = True
-            user.save()
-            return redirect('admin_requests')
-    else:
-        form = AdminCreateForm()
-    return render(request, 'create_admin.html', {'form': form})
+# def create_admin(request):
+#     if request.method == 'POST':
+#         form = AdminCreateForm(request.POST)
+#         if form.is_valid():
+#             user = form.save()
+#             user.is_staff = True
+#             user.save()
+#             return redirect('admin_requests')
+#     else:
+#         form = AdminCreateForm()
+#     return render(request, 'create_admin.html', {'form': form})
 
 
 @login_required
@@ -143,8 +143,7 @@ def new_admin(request):
 #     requests = AdminRequest.objects.all()
 #     return render(request, 'admin_request.html', {'requests': requests})
 
-from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login
+
 
 
 # def admin_login(request):
@@ -196,18 +195,18 @@ def admin_login(request):
     return render(request, 'admin_login.html')
 
 
-def create_admin(request):
-    if request.method == 'POST':
-        form = AdminCreationForm(request.POST)
-        if form.is_valid():
-            admin_user = form.save(commit=False)
-            admin_user.is_admin = True
-            admin_user.save()
-            return redirect('admin_profile')  
-    else:
-        form = AdminCreationForm()
+# def create_admin(request):
+#     if request.method == 'POST':
+#         form = AdminCreationForm(request.POST)
+#         if form.is_valid():
+#             admin_user = form.save(commit=False)
+#             admin_user.is_admin = True
+#             admin_user.save()
+#             return redirect('admin_profile')  
+#     else:
+#         form = AdminCreationForm()
 
-    return render(request, 'create_admin.html', {'form': form})
+#     return render(request, 'create_admin.html', {'form': form})
 
 
 
@@ -220,30 +219,9 @@ def login_mismatch(request):
 
 
 
-logger = logging.getLogger(__name__)
+# logger = logging.getLogger(__name__)
 
-# def student_login(request):
-#     if request.method == 'POST':
-#         enrollment_number = request.POST['enrollment_number']
-#         student_name = request.POST['student_name']
 
-#         # Log the received data for debugging
-#         logger.debug(f"Received enrollment number: {enrollment_number}")
-#         logger.debug(f"Received student name: {student_name}")
-
-#         # Authenticate the student (your authentication logic here)
-
-#         if user is not None:
-#             # Authentication succeeded
-#             logger.debug("Authentication succeeded")
-#             login(request, user)
-#             return redirect('student_profile')
-#         else:
-#              # Authentication failed
-#             logger.debug("Authentication failed")
-#             messages.error(request, 'Invalid enrollment number or student name.')
-
-#     return render(request, 'student_login.html')
 
 # def student_login(request):
 #     if request.method == 'POST':

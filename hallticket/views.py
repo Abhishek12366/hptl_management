@@ -9,26 +9,40 @@ from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from app.models import *
 from.models import *
+import logging
+logger = logging.getLogger(__name__)
+
 
 
 class CustomLoginView(LoginView):
     template_name = 'student_login.html'  
     success_url = reverse_lazy('student_profile')
 
+# def new_student_registration(request):
+#     if request.method == 'POST':
+#         form =StudentAdminForm(request.POST)
+#         if form.is_valid():
+#             form.save()
+#             return redirect('admin_profile')  
+#         form = StudentAdminForm()
+
+#     return render(request, 'student_registration.html', {'form': form})
+
+
 def new_student_registration(request):
+    form = StudentAdminForm() 
+
     if request.method == 'POST':
-        form =StudentAdminForm(request.POST)
+        form = StudentAdminForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('admin_profile')  # Redirect to admin profile or another appropriate page
-    else:
-        form = StudentAdminForm()
+            return redirect('admin_profile')  
 
     return render(request, 'student_registration.html', {'form': form})
 
 
 
-from app.forms import HallTicketAdminForm  # Import forms from the 'app' app
+
 
 def new_hall_ticket_registration(request):
     if request.method == 'POST':
@@ -43,65 +57,116 @@ def new_hall_ticket_registration(request):
 
 
 
+
 # def student_login(request):
 #     if request.method == 'POST':
 #         enrollment_number = request.POST['enrollment_number']
 #         student_name = request.POST['student_name']
 
-       
-#         matching_users = CustomUser.objects.filter(enrollment_number=enrollment_number, student_name=student_name)
+#         # print(f"Received enrollment_number: {enrollment_number}")
+#         # print(f"Received student_name: {student_name}")
 
-       
-#         if matching_users.count() == 1:
-#             user = matching_users.first()  
+     
+#         user = authenticate(request, username=enrollment_number, password=student_name)
+
+#         if user is not None:
+
 #             login(request, user)
-#             return redirect('student_profile')  
+#             return redirect('student_profile')
 #         else:
-          
-#             if matching_users.count() == 0:
-#                 error_message = "No user found with this enrollment number and student name."
-#             else:
-#                 error_message = "Multiple users found with the same enrollment number and student name."
+#             messages.error(request, 'Invalid enrollment number or student name.')
 
-#             messages.error(request, error_message)
-    
 #     return render(request, 'student_login.html')
 
 
-def student_login(request):
-    if request.method == 'POST':
-        enrollment_number = request.POST['enrollment_number']
-        student_name = request.POST['student_name']
+# def student_login(request):
+#     if request.method == 'POST':
+#         form = StudentLoginForm(request, data=request.POST)
+#         if form.is_valid():
+       
+#             user = form.get_user()
+#             login(request, user)
+#             return redirect('student_profile')
+#     else:
+#         form = StudentLoginForm(request)
 
-        print(f"Received enrollment_number: {enrollment_number}")
-        print(f"Received student_name: {student_name}")
-
-     
-        user = authenticate(request, username=enrollment_number, password=student_name)
-
-        if user is not None:
-
-            login(request, user)
-            return redirect('student_profile')
-        else:
-            messages.error(request, 'Invalid enrollment number or student name.')
-
-    return render(request, 'student_login.html')
+#     return render(request, 'student_login.html', {'form': form})
 
 
 # def student_login(request):
 #     if request.method == 'POST':
 #         enrollment_number = request.POST['enrollment_number']
-#         name = request.POST['name']
-#         student = authenticate(request, enrollment_number=enrollment_number, name=name)
-#         if student is not None:
-#             login(request, student)
-#             # Redirect to student's profile or dashboard
+#         password = request.POST['password']
+#         user = authenticate(request, username=enrollment_number, password=password)
+
+#         if user is not None:
+#             login(request, user)
 #             return redirect('student_profile')
 #         else:
-#             # Authentication failed, show an error message
-#             return render(request, 'student_login.html', {'error_message': 'Invalid credentials'})
+#             error_message = 'Invalid credentials.'
+#             return render(request, 'student_login.html', {'error_message': error_message})
+    # return render(request, 'student_login.html')
+
+
+
+import logging
+logger = logging.getLogger(__name__)
+
+def student_login(request):
+    if request.method == 'POST':
+        enrollment_number = request.POST['enrollment_number']
+        password = request.POST['password']
+        logger.debug(f"Received login attempt - Enrollment Number: {enrollment_number}, Password: {password}")
+        user = authenticate(request, username=enrollment_number, password=password)
+        if user is not None:
+            logger.debug(f"Authentication successful for user: {user.username}")
+            if user.is_student:
+                login(request, user)
+                logger.debug("Student login successful")
+                return redirect('student_profile')
+            else:
+                logger.warning("User is not a student")
+                return redirect('unauthorized')
+        else:
+            logger.warning("Authentication failed")
+            return redirect('login_mismatch')
+    return render(request, 'student_login.html')
+
+
+# previously used
+# def student_login(request):
+#     if request.method == 'POST':
+#         enrollment_number = request.POST['enrollment_number']
+#         password = request.POST['password']
+#         user = authenticate(request, username=enrollment_number, password=password)
+#         if user is not None:
+#             if user.is_student:
+#                 login(request, user)
+#                 return redirect('student_profile')
+#             else:
+#                 return redirect('unauthorized')
+#         else:
+#             return redirect('login_mismatch')
 #     return render(request, 'student_login.html')
+
+
+
+
+# def student_login(request):
+#     if request.method == 'POST':
+#         enrollment_number= request.POST['enrollment_number']
+#         student_name = request.POST['student_name']
+#         user = authenticate(request, enrollment_number=enrollment_number, student_name=student_name)
+#         if user is not None:
+#             if user.is_student:  
+#                 login(request, user)
+#                 return redirect('student_profile')  
+#             else:
+#                 return redirect('unauthorized')  
+#         else:
+#             return redirect('login_mismatch')  
+#     return render(request, 'student_login.html')
+
 
 # def student_login(request):
 #     if request.method == 'POST':
@@ -120,7 +185,7 @@ def student_login(request):
 
 #     return render(request, 'student_login.html')
 
-
+#
 @login_required
 def student_profile(request):
    
@@ -131,7 +196,7 @@ def student_profile(request):
         
     }
     
-    return render(request, 'hall_ticket/student_profile.html', context)
+    return render(request, 'student_profile.html')
 
 
 # def student_profile(request):
@@ -158,6 +223,8 @@ def student_dashboard(request):
     return render(request, 'hall_ticket/student_dashboard.html', context)
 
 
+
+
 def generate_hall_ticket(request):
     
     try:
@@ -180,5 +247,33 @@ def generate_hall_ticket(request):
 
 
 
+
+
+# def generate_hall_ticket(request, hall_ticket_id):
+
+#     hall_ticket = HallTicket.objects.get(id=hall_ticket_id)
+#     response = HttpResponse(content_type='application/pdf')
+#     response['Content-Disposition'] = f'filename="hall_ticket_{hall_ticket_id}.pdf"'
+
+#     c = canvas.Canvas(response, pagesize=letter)
+
+#     c.setFont("Helvetica-Bold", 14)
+#     c.drawString(100, 750, f'Student Name: {hall_ticket.student.user.username}')
+#     c.drawString(100, 730, f'Enrollment Number: {hall_ticket.student.enrollment_number}')
+
+#     c.setFont("Helvetica", 12)
+#     c.drawString(100, 710, f'Programme: {hall_ticket.student.programme}')
+#     c.drawString(100, 690, f'Course: {hall_ticket.student.course}')
+
+#     c.setFont("Helvetica-Bold", 14)
+#     c.drawString(100, 660, 'Exam Details')
+#     c.setFont("Helvetica", 12)
+#     c.drawString(100, 640, f'Exam Center: {hall_ticket.exam_center_name}')
+#     c.drawString(100, 620, f'Exam Date: {hall_ticket.exam_date.strftime("%Y-%m-%d %H:%M:%S")}')
+
+#     c.showPage()
+#     c.save()
+
+#     return response
 
 

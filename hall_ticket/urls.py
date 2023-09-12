@@ -18,11 +18,12 @@ from django.urls import path
 from app.views import*
 from hallticket.views import*
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', index, name='index'),
-    path('create_admin/', create_admin, name='create_admin'),
-    path('admin_requests/', admin_requests, name='admin_requests'),
+    # path('create_admin/', create_admin, name='create_admin'),
+    # path('admin_requests/', admin_requests, name='admin_requests'),
     path('superadmin_login', superadmin_login, name='superadmin_login'),
     path('superadmin/profile/', superadmin_profile, name='superadmin_profile'),
     path('superadmin/new-admin/', new_admin, name='create_admin'),
@@ -39,5 +40,14 @@ urlpatterns = [
         #    path('student_login/', CustomLoginView.as_view(), name='student_login'),
            path('dashboard/', student_dashboard, name='student_dashboard'),
          path('profile/', student_profile, name='student_profile'),
+
+
+
+         ##unauthorized / mismatch 
+
+    path('admin/login_mismatch/index',index, name=' admin/login_mismatch/index'),
+    path('admin/unauthorized/index',index, name=' admin/unauthorized/index'),
+
+       
 
 ]               

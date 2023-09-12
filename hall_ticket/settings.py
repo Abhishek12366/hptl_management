@@ -124,8 +124,12 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
 AUTH_USER_MODEL = 'app.CustomUser'
 
-
 AUTHENTICATION_BACKENDS = [
-    'django.contrib.auth.backends.ModelBackend',  
-    # 'hall_ticket.auth_backends.StudentBackend',  
+    'django.contrib.auth.backends.ModelBackend',
 ]
+
+
+# AUTHENTICATION_BACKENDS = [
+#     'hallticket.custom_auth.CustomAuthBackend',
+#     'django.contrib.auth.backends.ModelBackend',  
+# ]
