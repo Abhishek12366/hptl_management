@@ -20,6 +20,22 @@ class Course(models.Model):
     semester = models.PositiveIntegerField()
     program = models.ForeignKey(Program, on_delete=models.CASCADE)
 
+class HallTicket(models.Model):
+    student = models.OneToOneField(CustomUser, on_delete=models.CASCADE,null=True)
+    program = models.CharField(max_length=50)
+    course = models.CharField(max_length=50)
+    examination_center_code = models.CharField(max_length=10)
+    examination_center_address = models.TextField()
+    exam_date = models.DateField()
+    exam_time = models.TimeField()
+    seat_number = models.CharField(max_length=10)
+
+    def __str__(self):
+        return f"Hall Ticket for {self.student.name}"
+
+
+
+
 # class ExaminationCenter(models.Model):
 #     code = models.CharField(max_length=10)
 #     address = models.TextField()
@@ -45,18 +61,7 @@ class Course(models.Model):
 #     def __str__(self):
 #         return self.student_name
     
-class HallTicket(models.Model):
-    # student = models.OneToOneField(Student, on_delete=models.CASCADE)
-    program = models.CharField(max_length=50)
-    course = models.CharField(max_length=50)
-    examination_center_code = models.CharField(max_length=10)
-    examination_center_address = models.TextField()
-    exam_date = models.DateField()
-    exam_time = models.TimeField()
-    seat_number = models.CharField(max_length=10)
 
-    def __str__(self):
-        return f"Hall Ticket for {self.student.name}"
     
 
 

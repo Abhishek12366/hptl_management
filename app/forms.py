@@ -6,15 +6,10 @@ from hallticket.models import*
 from django.contrib.auth import get_user_model
 
 
-class AdminCreateForm(forms.ModelForm):
+class AdminLoginForm(AuthenticationForm):
     class Meta:
-        model = CustomUser
-        fields = ['username', 'email', 'password']
-
-class AdminRequestForm(forms.ModelForm):
-    class Meta:
-        model = AdminRequest
-        fields = ['name', 'email', 'password']
+        model = CustomUser  
+        fields = ['username', 'password']
 
 
 class AdminCreationForm(UserCreationForm):
@@ -22,17 +17,40 @@ class AdminCreationForm(UserCreationForm):
         model = CustomUser
         fields = ('username', 'email', 'password1', 'password2', 'is_active', 'is_superuser')
 
+class StudentLoginForm(UserCreationForm):
+    class Meta:
+        model = CustomUser
+        fields = ('username','password1', 'password2')
+
 
 
 class StudentAdminForm(UserCreationForm):
     class Meta:
-        model = Student
-        fields = '__all__'
+        model = CustomUser
+        fields = ('username', 'email', 'password1', 'password2', 'is_active', 'is_student','enrollment_number', 'name', 'email', 'address', 'aadhaar_number', 'program', 'course',)
+
+
 
 class HallTicketAdminForm(forms.ModelForm):
     class Meta:
         model = HallTicket
         fields = '__all__'
+
+
+
+
+
+
+
+
+
+
+#>>>>>>>>>>>>><<<<<<<<<<<<<#
+
+
+
+
+
 
 
 # class StudentLoginForm(AuthenticationForm):
@@ -78,31 +96,38 @@ class HallTicketAdminForm(forms.ModelForm):
 #         model = CustomUser  
 #         fields = ['username']
 
-class AdminLoginForm(AuthenticationForm):
-    class Meta:
-        model = CustomUser  
-        fields = ['username', 'password']
 
 
-class StudentLoginForm(AuthenticationForm):
-    class Meta:
-        model = Student
-        fields= ['student_name', 'enrollment_number']
 
-class StudentRegistrationForm(UserCreationForm):
-    enrollment_number = forms.CharField(max_length=20, required=True)
-    name = forms.CharField(max_length=100, required=True)
-    email = forms.EmailField(max_length=255, required=True)
-    address = forms.CharField(widget=forms.Textarea, required=True)
-    aadhaar_number = forms.CharField(max_length=12, required=True)
-    program = forms.CharField(max_length=100, required=True)
-    course = forms.CharField(max_length=100, required=True)
+# class StudentLoginForm(AuthenticationForm):
+#     class Meta:
+#         model = Student
+#         fields= ['password', 'enrollment_number']
 
-    class Meta:
-        model = Student
-        fields = ('enrollment_number', 'name', 'email', 'address', 'aadhaar_number', 'program', 'course', 'password1', 'password2')
+# class StudentRegistrationForm(UserCreationForm):
+#     enrollment_number = forms.CharField(max_length=20, required=True)
+#     name = forms.CharField(max_length=100, required=True)
+#     email = forms.EmailField(max_length=255, required=True)
+#     address = forms.CharField(widget=forms.Textarea, required=True)
+#     aadhaar_number = forms.CharField(max_length=12, required=True)
+#     program = forms.CharField(max_length=100, required=True)
+#     course = forms.CharField(max_length=100, required=True)
+
+#     class Meta:
+#         model = Student
+#         fields = ('enrollment_number', 'name', 'email', 'address', 'aadhaar_number', 'program', 'course', 'password1', 'password2')
 
 
-class StudentLoginForm(forms.Form):
-    enrollment_number = forms.CharField(max_length=20, required=True)
-    password = forms.CharField(widget=forms.PasswordInput, required=True)
+# class StudentLoginForm(forms.Form):
+#     enrollment_number = forms.CharField(max_length=20, required=True)
+#     password = forms.CharField(widget=forms.PasswordInput, required=True)
+
+# class AdminCreateForm(forms.ModelForm):
+#     class Meta:
+#         model = CustomUser
+#         fields = ['username', 'email', 'password']
+
+# class AdminRequestForm(forms.ModelForm):
+#     class Meta:
+#         model = AdminRequest
+#         fields = ['name', 'email', 'password']

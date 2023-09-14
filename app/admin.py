@@ -6,12 +6,12 @@ from .forms import*
 from hallticket.models import*
 
 admin.site.register(CustomUser)
-admin.site.register(AdminRequest)
+# admin.site.register(AdminRequest)
 
 
-@admin.register(Student)
-class StudentAdmin(admin.ModelAdmin):
-    form = StudentAdminForm
+# @admin.register(CustomUser)
+# class StudentAdmin(admin.ModelAdmin):
+#     form = StudentAdminForm
 
 @admin.register(HallTicket)
 class HallTicketAdmin(admin.ModelAdmin):

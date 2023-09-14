@@ -4,21 +4,21 @@ from django.shortcuts import render
 from django.shortcuts import render, redirect
 from .models import *
 from .forms import *
-import logging
-from django.contrib.auth.views import LoginView
-from django.urls import reverse
-from django.http import HttpResponseRedirect
+# import logging
+# from django.contrib.auth.views import LoginView
+# from django.urls import reverse
+# from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate, login
-from django.contrib.auth import get_user_model
+# from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
-from django.contrib import messages
-from django.urls import reverse_lazy
+# from django.contrib import messages
+# from django.urls import reverse_lazy
 
 
 
 
-logger = logging.getLogger(__name__)
+# logger = logging.getLogger(__name__)
 
 def index(request):
     return render(request, 'index.html')
@@ -26,24 +26,6 @@ def index(request):
 
 
 
-
-# def superadmin_login(request):
-#     if request.method == 'POST':
-#         username = request.POST['username']
-#         password = request.POST['password']
-#         user = authenticate(request, username=username, password=password)
-        
-#         if user is not None and user.is_active :
-#             if user.is_superuser:
-            
-#                 login(request, user)
-#                 return redirect('superadmin_profile')  
-#             else:
-            
-#                     return redirect('unauthorized')  
-#         else:
-#             return redirect('login_mismatch')  
-#     return render(request, 'superadmin_login.html')
 
 
 def superadmin_login(request):
@@ -67,14 +49,7 @@ def superadmin_login(request):
 
         
 
-# @login_required  # Ensure that only authenticated users can access this view
-# def admin_profile_view(request):
-#     # Retrieve information about the logged-in admin (you can customize this)
-#     admin = request.user
-
-#     # Pass the admin object to the template for rendering
-#     context = {'admin': admin}
-#     return render(request, 'admin_profile.html', context)    
+   
 
 @login_required
 def admin_profile(request):
@@ -90,36 +65,7 @@ def superadmin_profile(request):
     return render(request, 'superadmin_profile.html', {'user': request.user})
 
 
-# def superadmin_login(request):
-#     if request.method == 'POST':
-#         username = request.POST.get('username')
-#         password = request.POST.get('password')
-#         user = authenticate(request, username=username, password=password)
-#         if user is not None and user.is_active and user.is_superadmin:
-#             login(request, user)
-#             return redirect('admin_requests')
-#         else:
-#             message = "Unauthorized user"
-#             return render(request, 'superadmin_login.html', {'message': message})
-#     return render(request, 'superadmin_login.html')
 
-
-# @login_required
-# def admin_requests(request):
-#     requests = AdminRequest.objects.all()
-#     return render(request, 'admin_request.html', {'requests': requests})
-
-# def create_admin(request):
-#     if request.method == 'POST':
-#         form = AdminCreateForm(request.POST)
-#         if form.is_valid():
-#             user = form.save()
-#             user.is_staff = True
-#             user.save()
-#             return redirect('admin_requests')
-#     else:
-#         form = AdminCreateForm()
-#     return render(request, 'create_admin.html', {'form': form})
 
 
 @login_required
@@ -138,6 +84,31 @@ def new_admin(request):
     return render(request, 'admin_creation.html', {'form': form})
 
 
+def admin_login(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            if user.is_admin:  
+                login(request, user)
+                return redirect('admin_profile')  
+            else:
+                return redirect('unauthorized')  
+        else:
+            return redirect('login_mismatch')  
+    return render(request, 'admin_login.html')
+
+
+def unauthorized(request):
+    return render(request, 'unauthorized.html')
+def login_mismatch(request):
+    return render(request, 'login_mismatch.html')
+
+
+
+
+##>>>><<<<<<<###
 
 # def admin_requests(request):
 #     requests = AdminRequest.objects.all()
@@ -179,20 +150,6 @@ def new_admin(request):
 
 
 
-def admin_login(request):
-    if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
-            if user.is_admin:  
-                login(request, user)
-                return redirect('admin_profile')  
-            else:
-                return redirect('unauthorized')  
-        else:
-            return redirect('login_mismatch')  
-    return render(request, 'admin_login.html')
 
 
 # def create_admin(request):
@@ -210,12 +167,27 @@ def admin_login(request):
 
 
 
+# def superadmin_login(request):
+#     if request.method == 'POST':
+#         username = request.POST['username']
+#         password = request.POST['password']
+#         user = authenticate(request, username=username, password=password)
+        
+#         if user is not None and user.is_active :
+#             if user.is_superuser:
+            
+#                 login(request, user)
+#                 return redirect('superadmin_profile')  
+#             else:
+            
+#                     return redirect('unauthorized')  
+#         else:
+#             return redirect('login_mismatch')  
+#     return render(request, 'superadmin_login.html')
 
 
-def unauthorized(request):
-    return render(request, 'unauthorized.html')
-def login_mismatch(request):
-    return render(request, 'login_mismatch.html')
+
+
 
 
 
@@ -261,3 +233,44 @@ def login_mismatch(request):
 #         form = AdminLoginForm()
 
 #     return render(request, 'admin_login.html', {'form': form})
+
+
+# @login_required
+# def admin_requests(request):
+#     requests = AdminRequest.objects.all()
+#     return render(request, 'admin_request.html', {'requests': requests})
+
+# def create_admin(request):
+#     if request.method == 'POST':
+#         form = AdminCreateForm(request.POST)
+#         if form.is_valid():
+#             user = form.save()
+#             user.is_staff = True
+#             user.save()
+#             return redirect('admin_requests')
+#     else:
+#         form = AdminCreateForm()
+#     return render(request, 'create_admin.html', {'form': form})
+
+# def superadmin_login(request):
+#     if request.method == 'POST':
+#         username = request.POST.get('username')
+#         password = request.POST.get('password')
+#         user = authenticate(request, username=username, password=password)
+#         if user is not None and user.is_active and user.is_superadmin:
+#             login(request, user)
+#             return redirect('admin_requests')
+#         else:
+#             message = "Unauthorized user"
+#             return render(request, 'superadmin_login.html', {'message': message})
+#     return render(request, 'superadmin_login.html')
+
+
+# @login_required  # Ensure that only authenticated users can access this view
+# def admin_profile_view(request):
+#     # Retrieve information about the logged-in admin (you can customize this)
+#     admin = request.user
+
+#     # Pass the admin object to the template for rendering
+#     context = {'admin': admin}
+#     return render(request, 'admin_profile.html', context) 
